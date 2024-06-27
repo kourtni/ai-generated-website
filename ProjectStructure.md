@@ -2,7 +2,7 @@
 Below is a comprehensive project structure for the AI Generated Website using pnpm workspaces. This structure will accommodate all the components and allow for future expansion.
 
 ```plaintext
-chan-ko-llc/
+root/
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── tsconfig.json
