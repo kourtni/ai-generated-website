@@ -104,7 +104,7 @@ This structure offers several benefits:
 backend API).
 3. Separation of concerns: Styles, utilities, and types are organized into their own directories.
 4. Easy navigation: The consistent structure makes it simple to find and work on specific parts of
-the application.
+the application. 
 
 To start working with this structure:
 
@@ -112,3 +112,21 @@ To start working with this structure:
 2. Copy the contents of the package.json files we created earlier into their respective locations.
 3. Run `pnpm install` in the root directory to install all dependencies.
 4. Use `pnpm run dev` from the root to start the development server.
+
+## A brief note about `index.ts`
+The `index.ts` file for each component is a simple file that re-exports the component. This pattern allows for cleaner imports in other parts of your application.
+
+This single line of code does the following:
+1. It imports the default export from the '.tsx' file (which is the component).
+2. It immediately re-exports this default export.
+
+The benefit of this approach is that it allows you to import components in other files like this:
+```typescript
+import Header from './components/Header';
+```
+Instead of:
+```typescript
+import Header from './components/Header/Header';
+```
+
+This pattern provides a cleaner import syntax and allows you to potentially add named exports in the future without changing how other files import the main component.
