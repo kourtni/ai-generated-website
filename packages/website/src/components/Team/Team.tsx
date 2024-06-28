@@ -3,7 +3,7 @@ import styles from './Team.module.css';
 
 // Import images
 import chandraImage from '../../assets/images/chandra-erdman.png';
-import kourtniImage from '../../assets/images/kourtni-marshall-2.jpg';
+import kourtniImage from '../../assets/images/kourtni-in-chicago-hoodie.jpg';
 
 interface TeamMember {
   name: string;
