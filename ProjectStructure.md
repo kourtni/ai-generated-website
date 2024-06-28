@@ -18,6 +18,8 @@ root/
 │       │   ├── favicon.ico
 │       │   └── logo.png
 │       ├── src/
+│       │   ├── assets/
+│       │   │   └── images/
 │       │   ├── components/
 │       │   │   ├── Header/
 │       │   │   │   ├── Header.tsx
