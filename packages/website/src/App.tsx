@@ -7,11 +7,15 @@ import './styles/global.css';
 
 const App: React.FC = () => {
   return (
-    <div className="app">
+    <div className="App">
       <Header />
       <main>
-        <Hero />
-        <Team />
+        <section id="home">
+          <Hero />
+        </section>
+        <section id="team">
+          <Team />
+        </section>
       </main>
       <Footer />
     </div>
