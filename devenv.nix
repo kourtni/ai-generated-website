@@ -25,7 +25,7 @@
   '';
 
   dotenv.enable = true;
-  dotenv.filename = [  ".env" ".env.local" ];
+  dotenv.filename = [ ".env" ".env.local" ];
 
   # https://devenv.sh/services/
   # services.postgres.enable = true;
