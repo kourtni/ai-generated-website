@@ -24,6 +24,9 @@
     echo "Running 0 tests"
   '';
 
+  dotenv.enable = true;
+  dotenv.filename = [  ".env" ".env.local" ];
+
   # https://devenv.sh/services/
   # services.postgres.enable = true;
 
