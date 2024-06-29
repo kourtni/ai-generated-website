@@ -1,3 +1,5 @@
+// country list sourced from
+// https://gist.github.com/dariusz-wozniak/656f2f9070b4205c5009716f05c94067
 export const countries = [
   "United States",
   "Abkhazia",
