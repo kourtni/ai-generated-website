@@ -28,15 +28,20 @@ Click [here](ProjectStructure.md) for the full project structure.
 * This file is located at packages/website/package.json.
 * It includes all the specific dependencies and scripts for the React app
 
-## Install Dependencies
-* In the root directory, run pnpm install to install all dependencies.
-* To add a dependency to the website package, use:  
-`pnpm add <package-name> --filter @chan-ko-llc/website`
-* To run scripts, use: pnpm run dev or pnpm run build from the root directory.
-
 ### Benefits of this setup
 * Better organization for multi-package projects.
 * Shared devDependencies reduce duplication.
 * Easy to add more packages in the future if needed.
 
 This setup allows you to have multiple packages in your project (like separate packages for the website, a backend API, shared components, etc.) while managing them all from a single root.
+
+## Local Development
+If you want to fully test the website funtionality, be certain to create an `env.local` file in the
+root directory that holds the endpoint URL for where the ContactForm will post data. This file has
+been added to `.gitignore` so that it will not added to the repo.
+
+## Install Dependencies
+* In the root directory, run `pnpm install` to install all dependencies.
+* To add a dependency to the website package, use:  
+`pnpm add <package-name> --filter @chan-ko-llc/website`
+* To run scripts, use: `pnpm run dev` or `pnpm run build` from the root directory.

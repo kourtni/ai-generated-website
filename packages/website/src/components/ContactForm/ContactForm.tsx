@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ContactForm.module.css';
 import { countries } from './countries';
+
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 interface FormData {
   firstName: string;
@@ -14,6 +17,10 @@ interface FormData {
 }
 
 const ContactForm: React.FC = () => {
+  useEffect(() => {
+    console.log('Current API Endpoint:', API_ENDPOINT);
+  }, []);
+
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -25,7 +32,7 @@ const ContactForm: React.FC = () => {
     marketingConsent: false,
   });
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -43,14 +50,55 @@ const ContactForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the form data to a server
-    // For this example, we'll just simulate a successful submission
-    setTimeout(() => {
+    setSubmitStatus('submitting');
+
+    if (!API_ENDPOINT) {
+      console.error('API endpoint is not defined');
+      setSubmitStatus('error');
+      return;
+    }
+    // https://script.google.com/macros/s/AKfycbyGGu6g2pFjKzHZJfs4zhLkbH1zWX-Dkz9LbKw8aIc-xIVS5Mep_Hdi33T1IeHXsWIs/exec
+
+    try {
+      const response = await fetch(
+        API_ENDPOINT,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+          },
+          body: JSON.stringify(formData),
+        });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Form submission successful:', data);
       setSubmitStatus('success');
-      setTimeout(() => setSubmitStatus('idle'), 3000);
-    }, 1000);
+      
+      // Optional: Reset form after successful submission
+      setFormData({
+        firstName: '',
+        lastName: '',
+        company: '',
+        workEmail: '',
+        jobTitle: '',
+        country: '',
+        reasonForContacting: '',
+        marketingConsent: false,
+      });
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+    }
+
+    // Reset status after 3 seconds
+    setTimeout(() => setSubmitStatus('idle'), 3000);
   };
 
   return (
@@ -152,8 +200,8 @@ const ContactForm: React.FC = () => {
           </label>
         </div>
         <div className={styles.buttonContainer}>
-          <button type="submit" className={styles.submitButton}>
-            Submit
+          <button type="submit" className={styles.submitButton} disabled={submitStatus === 'submitting'}>
+            {submitStatus === 'submitting' ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </form>

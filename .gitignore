@@ -10,3 +10,6 @@ devenv.local.nix
 
 # TypeScript dependencies
 node_modules
+
+# misc
+.env.local
