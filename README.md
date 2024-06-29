@@ -35,7 +35,6 @@ Click [here](ProjectStructure.md) for the full project structure.
 
 This setup allows you to have multiple packages in your project (like separate packages for the website, a backend API, shared components, etc.) while managing them all from a single root.
 
-<hr>
 ## Local Development
 If you want to fully test the website funtionality, be certain to create an `env.local` file in the
 root directory that holds the endpoint URL for where the ContactForm will post data. This file has
