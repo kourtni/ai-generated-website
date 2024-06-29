@@ -15,18 +15,19 @@ interface TeamMember {
 const principals: TeamMember[] = [
   {
     name: "Chandra Erdman, PhD",
-    bio: `Chandra is a world renown statistician and technology manager who 
-    has overseen projects for US Census, Google, MLT, and has helped improve 
-    the security of over 150 cloud products.`,
+    bio: `The first black person to graduate from Yale with a Doctorate in statistics, Chandra is a
+    world renown statistician and technology manager. The Bayesian Change Point software package she
+    created has been used to study cancer, financial markets, climate change, and more. In addition,
+    she has overseen projects for the US Census, Google, MLT, and has helped improve the security of
+    over 150 cloud products.`,
     image: chandraImage
   },
   {
     name: "Kourtni Marshall",
-    bio: `Kourtni is a veteran technologist, audio engineer, and entrepreneur. 
-    His work crosses the boundaries between technology, entertainement, and 
-    community engagement. He has worked with many platinum selling artists and 
-    is an alumn of Google, Red Hat, and a Techstars backed startup that he
-    cofounded.`,
+    bio: `Kourtni is a veteran technologist, audio engineer, and entrepreneur. His work crosses the
+    boundaries between technology, entertainment, and community engagement. He has worked with many
+    platinum selling artists and is an alumnus of the Hit Factory, Google, Red Hat, as well as a
+    Techstars backed startup that he cofounded.`,
     image: kourtniImage
   },
 ];
