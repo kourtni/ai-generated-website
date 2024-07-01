@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, ChangeEvent, FormEvent} from 'react';
 import styles from './ContactForm.module.css';
-import { countries } from './countries';
+import {countries} from './countries';
 
-
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || '';
 
 interface FormData {
   firstName: string;
@@ -32,25 +31,29 @@ const ContactForm: React.FC = () => {
     marketingConsent: false,
   });
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<
+    'idle' | 'submitting' | 'success' | 'error'
+  >('idle');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ): void => {
+    const {name, value} = e.target;
     setFormData(prevData => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const {name, checked} = e.target;
     setFormData(prevData => ({
       ...prevData,
       [name]: checked,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setSubmitStatus('submitting');
 
@@ -59,18 +62,15 @@ const ContactForm: React.FC = () => {
       setSubmitStatus('error');
       return;
     }
-    // https://script.google.com/macros/s/AKfycbyGGu6g2pFjKzHZJfs4zhLkbH1zWX-Dkz9LbKw8aIc-xIVS5Mep_Hdi33T1IeHXsWIs/exec
 
     try {
-      const response = await fetch(
-        API_ENDPOINT,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8',
-          },
-          body: JSON.stringify(formData),
-        });
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -79,7 +79,7 @@ const ContactForm: React.FC = () => {
       const data = await response.json();
       console.log('Form submission successful:', data);
       setSubmitStatus('success');
-      
+
       // Optional: Reset form after successful submission
       setFormData({
         firstName: '',
@@ -91,7 +91,6 @@ const ContactForm: React.FC = () => {
         reasonForContacting: '',
         marketingConsent: false,
       });
-
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');
@@ -169,7 +168,7 @@ const ContactForm: React.FC = () => {
             onChange={handleChange}
             required
           >
-            {countries.map((country) => (
+            {countries.map(country => (
               <option key={country} value={country}>
                 {country}
               </option>
@@ -195,24 +194,34 @@ const ContactForm: React.FC = () => {
             onChange={handleCheckboxChange}
           />
           <label htmlFor="marketingConsent">
-            Sign me up to receive future marketing communications regarding Chan-Ko LLC companies'
-            products, services, and events.
+            Sign me up to receive future marketing communications regarding
+            Chan-Ko LLC companies&apos; products, services, and events.
           </label>
         </div>
         <div className={styles.buttonContainer}>
-          <button type="submit" className={styles.submitButton} disabled={submitStatus === 'submitting'}>
+          <button
+            type="submit"
+            className={styles.submitButton}
+            disabled={submitStatus === 'submitting'}
+          >
             {submitStatus === 'submitting' ? 'Submitting...' : 'Submit'}
           </button>
         </div>
       </form>
       {submitStatus === 'success' && (
-        <p className={styles.successMessage}>Your message has been sent successfully!</p>
+        <p className={styles.successMessage}>
+          Your message has been sent successfully!
+        </p>
       )}
       {submitStatus === 'error' && (
-        <p className={styles.errorMessage}>There was an error sending your message. Please try again.</p>
+        <p className={styles.errorMessage}>
+          There was an error sending your message. Please try again.
+        </p>
       )}
       <p className={styles.disclaimer}>
-        By submitting this form, I authorize Chan-Ko LLC companies to contact me regarding this inquiry or according to my choice to register for future communications.
+        By submitting this form, I authorize Chan-Ko LLC companies to contact me
+        regarding this inquiry or according to my choice to register for future
+        communications.
       </p>
     </div>
   );
