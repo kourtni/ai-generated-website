@@ -1,28 +1,38 @@
 {
-    "name": "chan-ko-llc-workspace",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-      "dev": "pnpm run --parallel --filter \"./packages/**\" dev",
-      "build": "pnpm run --parallel --filter \"./packages/**\" build",
-      "lint": "pnpm run --parallel --filter \"./packages/**\" lint",
-      "format": "pnpm run --parallel --filter \"./packages/**\" format"
-    },
-    "devDependencies": {
-      "@typescript-eslint/eslint-plugin": "^5.62.0",
-      "@typescript-eslint/parser": "^5.62.0",
-      "eslint": "^8.45.0",
-      "eslint-config-react-app": "^7.0.1",
-      "eslint-plugin-react": "^7.32.2",
-      "eslint-plugin-react-hooks": "^4.6.0",
-      "prettier": "^2.8.8",
-      "typescript": "^4.9.5"
-    },
-    "pnpm": {
-      "peerDependencyRules": {
-        "allowedVersions": {
-          "react": "18"
-        }
+  "name": "chan-ko-llc-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
+    "lint:website": "eslint packages/website --ext .js,.ts,.tsx",
+    "lint:website:fix": "eslint packages/website --ext .js,.ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "type-check:website": "tsc --noEmit -p packages/website/tsconfig.json",
+    "lint:all": "pnpm run lint && pnpm run type-check",
+    "lint:all:fix": "pnpm run lint:fix && pnpm run type-check",
+    "lint:website:all": "pnpm run lint:website && pnpm run type-check:website",
+    "lint:website:all:fix": "pnpm run lint:website:fix && pnpm run type-check:website",
+    "precommit": "pnpm run lint:all",
+    "prepush": "pnpm run lint:all && pnpm run test"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "gts": "^5.3.1",
+    "prettier": "^2.8.8",
+    "typescript": "^4.9.5"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "18"
       }
     }
   }
+}

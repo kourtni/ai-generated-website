@@ -34,7 +34,13 @@
   # languages.nix.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
-  # pre-commit.hooks.shellcheck.enable = true;
+  pre-commit.hooks.gts = {
+    enable = true;
+    name = "Google TypeScript Style Guide Enforcement";
+    entry = "pnpm eslint --fix";
+    files = "\\.(ts|tsx)$";
+    excludes = [ "node_modules" ];
+  };
 
   # https://devenv.sh/processes/
   # processes.ping.exec = "ping example.com";
