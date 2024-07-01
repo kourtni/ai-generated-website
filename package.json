@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "dev": "pnpm run --parallel --filter \"./packages/**\" dev",
+    "build": "pnpm run --parallel --filter \"./packages/**\" build",    
     "lint": "eslint . --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
     "lint:website": "eslint packages/website --ext .js,.ts,.tsx",
