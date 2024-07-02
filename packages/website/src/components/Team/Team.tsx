@@ -18,7 +18,7 @@ const principals: TeamMember[] = [
     bio: `The first black person to graduate from Yale with a Doctorate in statistics, Chandra is a
     world renown statistician and technology manager. The Bayesian Change Point software package she
     created has been used to study cancer, financial markets, climate change, and more. In addition,
-    she has overseen projects for the US Census, Google, MLT, and has helped improve the security of
+    she has overseen projects for the US Census, Google, MLT, and helped improve the security of
     over 150 cloud products.`,
     image: chandraImage,
   },
@@ -78,11 +78,7 @@ const Team: React.FC = () => {
         {principals.map((member, index) => (
           <div key={index} className={styles.teamMember}>
             <div className={styles.imageContainer}>
-              <img
-                src={member.image}
-                alt={member.name}
-                className={styles.memberImage}
-              />
+              <img src={member.image} alt={member.name} className={styles.memberImage} />
             </div>
             <h3>{member.name}</h3>
             <p className={styles.role}>{member.role}</p>

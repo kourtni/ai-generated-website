@@ -1,4 +1,5 @@
 # Project Structure
+
 Below is a comprehensive project structure for the AI Generated Website using pnpm workspaces. This structure will accommodate all the components and allow for future expansion.
 
 ```plaintext
@@ -75,6 +76,7 @@ root/
 ## Key aspects of this structure
 
 1. Root level:
+
    - package.json: Contains workspace-wide scripts and shared devDependencies.
    - pnpm-workspace.yaml: Defines the workspace structure for pnpm.
    - tsconfig.json: Base TypeScript configuration (can be extended by packages).
@@ -83,11 +85,13 @@ root/
    - .gitignore: Specifies intentionally untracked files to ignore.
 
 2. packages/website/:
+
    - This is where the main Chan-Ko LLC website code resides.
    - package.json: Contains dependencies and scripts specific to the website.
    - public/: Contains static assets like index.html, favicon, and logo.
 
 3. src/ directory:
+
    - components/: Each component has its own directory with .tsx, .module.css, and index.ts files.
    - styles/: Global styles and CSS variables.
    - utils/: Utility functions.
@@ -96,17 +100,17 @@ root/
    - App.tsx: Main application component.
    - index.tsx: Entry point of the React application.
 
-4. .vscode/: 
+4. .vscode/:
    - settings.json: VS Code specific settings for consistent development experience.
 
 This structure offers several benefits:
 
 1. Modularity: Each component is self-contained, making it easy to manage and update.
 2. Scalability: The workspace structure allows for easy addition of new packages if needed (e.g., a
-backend API).
+   backend API).
 3. Separation of concerns: Styles, utilities, and types are organized into their own directories.
 4. Easy navigation: The consistent structure makes it simple to find and work on specific parts of
-the application. 
+   the application.
 
 To start working with this structure:
 
@@ -116,19 +120,24 @@ To start working with this structure:
 4. Use `pnpm run dev` from the root to start the development server.
 
 ## A brief note about `index.ts`
+
 The `index.ts` file for each component is a simple file that re-exports the component. This pattern allows for cleaner imports in other parts of your application.
 
 This single line of code does the following:
+
 1. It imports the default export from the '.tsx' file (which is the component).
 2. It immediately re-exports this default export.
 
 The benefit of this approach is that it allows you to import components in other files like this:
+
 ```typescript
-import Header from './components/Header';
+import Header from "./components/Header";
 ```
+
 Instead of:
+
 ```typescript
-import Header from './components/Header/Header';
+import Header from "./components/Header/Header";
 ```
 
 This pattern provides a cleaner import syntax and allows you to potentially add named exports in the future without changing how other files import the main component.

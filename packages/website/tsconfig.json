@@ -33,14 +33,6 @@
     "allowJs": false,
     "types": ["node", "react", "react-dom"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "test/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.js",
-    "**/*.jsx"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts"],
+  "exclude": ["node_modules", "**/*.js", "**/*.jsx"]
 }
