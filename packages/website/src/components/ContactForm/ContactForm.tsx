@@ -31,9 +31,9 @@ const ContactForm: React.FC = () => {
     marketingConsent: false,
   });
 
-  const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'submitting' | 'success' | 'error'
-  >('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>(
+    'idle'
+  );
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -194,8 +194,8 @@ const ContactForm: React.FC = () => {
             onChange={handleCheckboxChange}
           />
           <label htmlFor="marketingConsent">
-            Sign me up to receive future marketing communications regarding
-            Chan-Ko LLC companies&apos; products, services, and events.
+            Sign me up to receive future marketing communications regarding Chan-Ko LLC
+            companies&apos; products, services, and events.
           </label>
         </div>
         <div className={styles.buttonContainer}>
@@ -209,9 +209,7 @@ const ContactForm: React.FC = () => {
         </div>
       </form>
       {submitStatus === 'success' && (
-        <p className={styles.successMessage}>
-          Your message has been sent successfully!
-        </p>
+        <p className={styles.successMessage}>Your message has been sent successfully!</p>
       )}
       {submitStatus === 'error' && (
         <p className={styles.errorMessage}>
@@ -219,9 +217,8 @@ const ContactForm: React.FC = () => {
         </p>
       )}
       <p className={styles.disclaimer}>
-        By submitting this form, I authorize Chan-Ko LLC companies to contact me
-        regarding this inquiry or according to my choice to register for future
-        communications.
+        By submitting this form, I authorize Chan-Ko LLC companies to contact me regarding this
+        inquiry or according to my choice to register for future communications.
       </p>
     </div>
   );

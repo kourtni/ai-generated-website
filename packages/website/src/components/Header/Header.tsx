@@ -38,10 +38,7 @@ const Header: React.FC = () => {
             </a>
           </li>
           <li>
-            <a
-              href="#case-studies"
-              onClick={e => handleScroll(e, 'case-studies')}
-            >
+            <a href="#case-studies" onClick={e => handleScroll(e, 'case-studies')}>
               Case Studies
             </a>
           </li>
@@ -57,10 +54,7 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </nav>
-      <button
-        className={styles.menuToggle}
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-      >
+      <button className={styles.menuToggle} onClick={() => setIsMenuOpen(!isMenuOpen)}>
         {isMenuOpen ? <XIcon /> : <MenuIcon />}
       </button>
     </header>

@@ -4,41 +4,37 @@ module.exports = {
     node: true,
     es6: true,
   },
-  ignorePatterns: ['build/**/*', 'dist/**/*', 'node_modules/**/*'],
+  ignorePatterns: ["build/**/*", "dist/**/*", "node_modules/**/*"],
+  extends: ["eslint:recommended"],
   overrides: [
     // JavaScript files
     {
-      files: ['*.js'],
-      extends: [
-        'eslint:recommended',
-        'google',
-      ],
+      files: ["*.js"],
+      extends: ["google", "prettier"],
       parserOptions: {
         ecmaVersion: 2018,
-        sourceType: 'module',
+        sourceType: "module",
       },
       rules: {
-        'require-jsdoc': 'off',
-        // You can adjust other JavaScript-specific rules here
+        "require-jsdoc": "off",
       },
     },
     // TypeScript files
     {
-      files: ['*.ts', '*.tsx'],
-      parser: '@typescript-eslint/parser',
-      plugins: ['@typescript-eslint'],
+      files: ["*.ts", "*.tsx"],
+      parser: "@typescript-eslint/parser",
+      plugins: ["@typescript-eslint"],
       extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        './node_modules/gts/',
+        "plugin:@typescript-eslint/recommended",
+        "./node_modules/gts/",
+        "prettier",
       ],
       parserOptions: {
-        project: ['./tsconfig.json', './packages/*/tsconfig.json'],
+        project: ["./tsconfig.json", "./packages/*/tsconfig.json"],
       },
       rules: {
-        '@typescript-eslint/no-explicit-any': 'error',
-        'max-len': 'off', // Turn off max-len for TypeScript files
-        // You can adjust other TypeScript-specific rules here
+        "@typescript-eslint/no-explicit-any": "error",
+        "prettier/prettier": ["error", {}, { usePrettierrc: true }],
       },
     },
   ],
