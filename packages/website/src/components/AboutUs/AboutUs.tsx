@@ -9,9 +9,9 @@ const AboutUs: React.FC = () => {
       <div className={styles.content}>
         <div className={styles.description}>
           <p>
-            Chan-Ko LLC is a cutting-edge consultancy at the intersection of technology and
-            entertainment. We bring together expertise in both fields to deliver innovative
-            solutions that captivate audiences and drive business growth.
+            Chan-Ko LLC is a cutting-edge consultancy at the intersection of technology, education,
+            and entertainment. We bring together multiple vectors of expertise to deliver innovative
+            solutions that captivate, educate, and drive business growth.
           </p>
           <p>
             With years of experience in software development, statistical analysis, artificial
