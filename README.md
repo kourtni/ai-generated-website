@@ -7,7 +7,7 @@ the vast majority of functionality will be implemented using AI tooling.
 
 ## Project Structure
 
-Below is the project structure proposed by [Claude 3.5](https://claude.ai/).
+Below is a combined project structure proposed by [Claude 3.5](https://claude.ai/) and [ChatGPT 4o](https://chatgpt.com/).
 
 ```
 root_folder/
@@ -15,9 +15,21 @@ root_folder/
 ├── pnpm-workspace.yaml
 └── packages/
     └── website/
-        ├── package.json
-        └── src/
-            └── (your React app files)
+    |   ├── package.json
+    |   └── src/
+    |       └── (your React app files)
+    └── questionnaire-website/
+        ├── client
+        |   ├── package.json
+        │   ├── tsconfig.json
+        │   ├── vite.config.ts
+        |   └── src/
+        |       └── (your React app files)
+        ├── server
+        |   ├── package.json
+        │   ├── tsconfig.json
+        |   └── src/
+        |       └── (Express files)
 ```
 
 Click [here](ProjectStructure.md) for the full project structure.
