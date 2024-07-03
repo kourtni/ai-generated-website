@@ -17,11 +17,17 @@
     "lint:website:all": "pnpm run lint:website && pnpm run type-check:website",
     "lint:website:all:fix": "pnpm run lint:website:fix && pnpm run type-check:website",
     "precommit": "pnpm run lint:all",
-    "prepush": "pnpm run lint:all && pnpm run test"
+    "prepush": "pnpm run lint:all && pnpm run test",
+    "client": "pnpm --filter client dev",
+    "server": "pnpm --filter server start",
+    "start": "concurrently \"pnpm client\" \"pnpm server\"",
+    "start:client": "pnpm --filter client dev",
+    "start:server": "pnpm --filter server start"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^9.1.0",
