@@ -1,3 +1,4 @@
 packages:
   - 'packages/*'
+  - 'packages/chan-ko-website'
   - 'packages/questionnaire-website/*'
