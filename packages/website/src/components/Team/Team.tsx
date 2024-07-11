@@ -4,6 +4,7 @@ import styles from './Team.module.css';
 // Import images
 import chandraImage from '../../assets/images/chandra-erdman.png';
 import kourtniImage from '../../assets/images/kourtni-in-chicago-hoodie.jpg';
+import cliffImage from '../../assets/images/cray_podium_20230926.jpg';
 
 interface TeamMember {
   name: string;
@@ -15,28 +16,43 @@ interface TeamMember {
 const principals: TeamMember[] = [
   {
     name: 'Chandra Erdman, PhD',
-    bio: `The first black person to graduate from Yale with a Doctorate in statistics, Chandra is a
-    world renown statistician and technology manager. The Bayesian Change Point software package she
-    created has been used to study cancer, financial markets, climate change, and more. In addition,
-    she has overseen projects for the US Census, Google, MLT, and helped improve the security of
-    over 150 cloud products.`,
+    bio: `Dr. Erdman stands out as a trailblazer in technology and data science. As Yale's first
+    Black PhD recipient in Statistics, she has forged an exceptional path from research
+    statistician at the US Census Bureau to technical program manager at Google. Her rare
+    combination of government statistical expertise and Silicon Valley leadership has enabled her
+    to spearhead transformative initiatives impacting billions of users. Dr. Erdman's unparalleled
+    blend of skills in data analytics, security, and fostering diversity positions her as a
+    groundbreaking advisor in technology and innovation, offering insights few others can match.`,
     image: chandraImage,
   },
   {
     name: 'Kourtni Marshall',
-    bio: `Kourtni is a veteran technologist, audio engineer, and entrepreneur. His work crosses the
-    boundaries between technology, entertainment, and community engagement. He has worked with many
-    platinum selling artists and is an alumnus of the Hit Factory, Google, Red Hat, as well as a
-    Techstars backed startup that he cofounded.`,
+    bio: `Kourtni is a visionary technology leader with over 15 years of experience, including a
+    decade at Google as a Software Engineer Tech Lead. As a former CTO and co-founder, he combines
+    deep technical expertise with a passion for empowering entrepreneurs and nonprofits. Kourtni's
+    diverse background spans software development, education, and entertainment, making him uniquely
+    qualified to guide organizations in leveraging technology for social impact and business
+    success.`,
     image: kourtniImage,
   },
 ];
 
 const teamMembers: TeamMember[] = [
   {
-    name: 'Jane Doe',
-    role: 'Client Relations',
-    bio: 'Jane has over 20 years of experience in tech and entertainment.',
+    name: 'Clifford Rallins',
+    role: 'EdTech Evangelist',
+    bio: `Having served as IT Director at a charter school network for over 18 years, Cliff has seen
+    it all when it comes to educational technology. His diverse background in IT management and
+    ability to bring technology to educational settings make him an ideal guide for institutions
+    hoping to leverage technology to enhance learning outcomes.`,
+    image: cliffImage,
+  },
+  {
+    name: 'Jason Williamson, MBA',
+    role: 'Sales Lead',
+    bio: `Jason brings 15+ years of experience in sales and business development across
+    pharmaceuticals, real estate, and technology. He has a proven track record of driving revenue
+    growth and building strong client relationships.`,
   },
   {
     name: 'John Smith',
@@ -70,39 +86,37 @@ const teamMembers: TeamMember[] = [
   },
 ];
 
+const TeamMemberCard: React.FC<TeamMember> = ({name, role, bio, image}) => (
+  <div className={styles.teamMember}>
+    <div className={styles.imageContainer}>
+      <img
+        src={image || `https://picsum.photos/seed/${name}/200/200`}
+        alt={name}
+        className={styles.memberImage}
+      />
+    </div>
+    <h3>{name}</h3>
+    <p className={styles.role}>{role}</p>
+    <p className={styles.bio}>{bio}</p>
+  </div>
+);
+
+const TeamSection: React.FC<{title: string; members: TeamMember[]}> = ({title, members}) => (
+  <>
+    <h2>{title}</h2>
+    <div className={styles.teamGrid}>
+      {members.map((member, index) => (
+        <TeamMemberCard key={index} {...member} />
+      ))}
+    </div>
+  </>
+);
+
 const Team: React.FC = () => {
   return (
     <section className={styles.team}>
-      <h2>Principals</h2>
-      <div className={styles.teamGrid}>
-        {principals.map((member, index) => (
-          <div key={index} className={styles.teamMember}>
-            <div className={styles.imageContainer}>
-              <img src={member.image} alt={member.name} className={styles.memberImage} />
-            </div>
-            <h3>{member.name}</h3>
-            <p className={styles.role}>{member.role}</p>
-            <p className={styles.bio}>{member.bio}</p>
-          </div>
-        ))}
-      </div>
-      <h2>Our Team</h2>
-      <div className={styles.teamGrid}>
-        {teamMembers.map((member, index) => (
-          <div key={index} className={styles.teamMember}>
-            <div className={styles.imageContainer}>
-              <img
-                src={`https://picsum.photos/seed/${member.name}/200/200`}
-                alt={member.name}
-                className={styles.memberImage}
-              />
-            </div>
-            <h3>{member.name}</h3>
-            <p className={styles.role}>{member.role}</p>
-            <p className={styles.bio}>{member.bio}</p>
-          </div>
-        ))}
-      </div>
+      <TeamSection title="Principals" members={principals} />
+      <TeamSection title="Our Team" members={teamMembers} />
     </section>
   );
 };
