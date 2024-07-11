@@ -42,7 +42,7 @@ Click [here](ProjectStructure.md) for the full project structure.
 
 ### Package package.json files
 
-- These file are located at packages/<package-name>/package.json.
+- These files are located at packages/<package-name>/package.json.
 - It includes all the specific dependencies and scripts for the specific package.
 
 ### Benefits of this setup
