@@ -38,6 +38,15 @@ const AboutUs: React.FC = () => {
               <li>Gaming & eSports</li>
             </ul>
           </div>
+          <div className={styles.highlight}>
+            <h3>EdTech Offerings</h3>
+            <ul>
+              <li>Technology Integration Strategy</li>
+              <li>Digital Learning Platform Evaluation</li>
+              <li>Teacher Training and Skills Development</li>
+              <li>Knowledge Retention Analysis Over Time</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
