@@ -12,63 +12,64 @@ root/
 ├── README.md
 ├── .gitignore
 ├── packages/
-│   └── website/
-│       ├── package.json
-│       ├── public/
-│       │   ├── index.html
-│       │   ├── favicon.ico
-│       │   └── logo.png
-│       ├── src/
-│       │   ├── assets/
-│       │   │   └── images/
-│       │   ├── components/
-│       │   │   ├── Header/
-│       │   │   │   ├── Header.tsx
-│       │   │   │   ├── Header.module.css
-│       │   │   │   └── index.ts
-│       │   │   ├── Hero/
-│       │   │   │   ├── Hero.tsx
-│       │   │   │   ├── Hero.module.css
-│       │   │   │   └── index.ts
-│       │   │   ├── AboutUs/
-│       │   │   │   ├── AboutUs.tsx
-│       │   │   │   ├── AboutUs.module.css
-│       │   │   │   └── index.ts
-│       │   │   ├── Services/
-│       │   │   │   ├── Services.tsx
-│       │   │   │   ├── ServiceCard.tsx
-│       │   │   │   ├── Services.module.css
-│       │   │   │   └── index.ts
-│       │   │   ├── CaseStudies/
-│       │   │   │   ├── CaseStudies.tsx
-│       │   │   │   ├── CaseStudyCard.tsx
-│       │   │   │   ├── CaseStudies.module.css
-│       │   │   │   └── index.ts
-│       │   │   ├── Team/
-│       │   │   │   ├── Team.tsx
-│       │   │   │   ├── TeamMember.tsx
-│       │   │   │   ├── Team.module.css
-│       │   │   │   └── index.ts
-│       │   │   ├── ContactForm/
-│       │   │   │   ├── ContactForm.tsx
-│       │   │   │   ├── ContactForm.module.css
-│       │   │   │   └── index.ts
-│       │   │   └── Footer/
-│       │   │       ├── Footer.tsx
-│       │   │       ├── Footer.module.css
-│       │   │       └── index.ts
-│       │   ├── styles/
-│       │   │   ├── global.css
-│       │   │   └── variables.css
-│       │   ├── utils/
-│       │   │   └── helpers.ts
-│       │   ├── types/
-│       │   │   └── index.ts
-│       │   ├── hooks/
-│       │   │   └── useForm.ts
-│       │   ├── App.tsx
-│       │   └── index.tsx
-│       └── tsconfig.json
+│   └── chan-ko-website/
+│   │   ├── package.json
+│   │   ├── public/
+│   │   │   ├── index.html
+│   │   │   ├── favicon.ico
+│   │   │   └── logo.png
+│   │   ├── src/
+│   │   │   ├── assets/
+│   │   │   │   └── images/
+│   │   │   ├── components/
+│   │   │   │   ├── Header/
+│   │   │   │   │   ├── Header.tsx
+│   │   │   │   │   ├── Header.module.css
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── Hero/
+│   │   │   │   │   ├── Hero.tsx
+│   │   │   │   │   ├── Hero.module.css
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── AboutUs/
+│   │   │   │   │   ├── AboutUs.tsx
+│   │   │   │   │   ├── AboutUs.module.css
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── Services/
+│   │   │   │   │   ├── Services.tsx
+│   │   │   │   │   ├── ServiceCard.tsx
+│   │   │   │   │   ├── Services.module.css
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── CaseStudies/
+│   │   │   │   │   ├── CaseStudies.tsx
+│   │   │   │   │   ├── CaseStudyCard.tsx
+│   │   │   │   │   ├── CaseStudies.module.css
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── Team/
+│   │   │   │   │   ├── Team.tsx
+│   │   │   │   │   ├── TeamMember.tsx
+│   │   │   │   │   ├── Team.module.css
+│   │   │   │   │   └── index.ts
+│   │   │   │   ├── ContactForm/
+│   │   │   │   │   ├── ContactForm.tsx
+│   │   │   │   │   ├── ContactForm.module.css
+│   │   │   │   │   └── index.ts
+│   │   │   │   └── Footer/
+│   │   │   │       ├── Footer.tsx
+│   │   │   │       ├── Footer.module.css
+│   │   │   │       └── index.ts
+│   │   │   ├── styles/
+│   │   │   │   ├── global.css
+│   │   │   │   └── variables.css
+│   │   │   ├── utils/
+│   │   │   │   └── helpers.ts
+│   │   │   ├── types/
+│   │   │   │   └── index.ts
+│   │   │   ├── hooks/
+│   │   │   │   └── useForm.ts
+│   │   │   ├── App.tsx
+│   │   │   └── index.tsx
+│   │   └── tsconfig.json
+│   └── questionnaire-website/
 └── .vscode/
     └── settings.json
 ```
@@ -84,7 +85,7 @@ root/
    - README.md: Project documentation.
    - .gitignore: Specifies intentionally untracked files to ignore.
 
-2. packages/website/:
+2. packages/chan-ko-website/:
 
    - This is where the main Chan-Ko LLC website code resides.
    - package.json: Contains dependencies and scripts specific to the website.

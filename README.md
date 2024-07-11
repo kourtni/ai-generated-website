@@ -14,7 +14,7 @@ root_folder/
 ├── package.json (root)
 ├── pnpm-workspace.yaml
 └── packages/
-    └── website/
+    └── chan-ko-website/
     |   ├── package.json
     |   └── src/
     |       └── (your React app files)
@@ -34,16 +34,16 @@ root_folder/
 
 Click [here](ProjectStructure.md) for the full project structure.
 
-### Root package.json
+### Root package.json file
 
 - This file is at the root of the project.
 - It doesn't include direct dependencies for the app, only devDependencies shared across all packages.
 - The scripts use pnpm filters to run commands in all packages.
 
-### Website package.json
+### Package package.json files
 
-- This file is located at packages/website/package.json.
-- It includes all the specific dependencies and scripts for the React app
+- These files are located at packages/<package-name>/package.json.
+- It includes all the specific dependencies and scripts for the specific package.
 
 ### Benefits of this setup
 
@@ -62,6 +62,6 @@ been added to `.gitignore` so that it will not added to the repo.
 ## Install Dependencies
 
 - In the root directory, run `pnpm install` to install all dependencies.
-- To add a dependency to the website package, use:  
-  `pnpm add <package-name> --filter @chan-ko-llc/website`
+- To add a dependency to the chan-ko-website package, use:  
+  `pnpm add <dependency-package-name> --filter @chan-ko-llc/chan-ko-website`
 - To run scripts, use: `pnpm run dev` or `pnpm run build` from the root directory.
