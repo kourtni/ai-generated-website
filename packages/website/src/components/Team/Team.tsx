@@ -41,8 +41,10 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Clifford Rallins',
     role: 'EdTech Evangelist',
-    bio: `Cliff has over 20 years of experience in the EdTech space. In his work he has modernized
-    the technology offerings for thousands of students across dozens of schools.`,
+    bio: `Having served as IT Director at a charter school network for over 18 years, Cliff has seen
+    it all when it comes to educational technology. His diverse background in IT management and
+    ability to bring technology to educational settings make him an ideal guide for institutions
+    hoping to leverage technology to enhance learning outcomes.`,
     image: cliffImage,
   },
   {
