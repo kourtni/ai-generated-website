@@ -77,7 +77,7 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Alicia Johns',
     role: 'Director of Ducks',
-    bio: 'Alicia a lot about what ducks like.',
+    bio: 'Alicia knows a lot about what ducks like.',
   },
   {
     name: 'William Evans',
