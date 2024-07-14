@@ -5,7 +5,7 @@ import ContactForm from '../../../src/components/ContactForm';
 describe('ContactForm', () => {
   it('renders contact form', () => {
     render(<ContactForm />);
-    
+
     expect(screen.getByText('Contact Us')).toBeInTheDocument();
     expect(screen.getByLabelText('First Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Last Name')).toBeInTheDocument();
