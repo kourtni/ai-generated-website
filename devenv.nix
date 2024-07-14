@@ -24,6 +24,7 @@
     echo "Running 0 tests"
   '';
 
+  # TODO: These dotenv lines can be removed.
   dotenv.enable = true;
   dotenv.filename = [ ".env" ".env.local" ];
 
@@ -34,12 +35,24 @@
   # languages.nix.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
-  pre-commit.hooks.gts = {
-    enable = true;
-    name = "Google TypeScript Style Guide Enforcement";
-    entry = "pnpm eslint --fix";
-    files = "\\.(ts|tsx)$";
-    excludes = [ "node_modules" ];
+  pre-commit.hooks = {
+    chan-ko-testing = {
+      enable = true;
+      name = "Chan-Ko Website Testing";
+      entry = "pnpm test:chan-ko-website";
+      pass_filenames = false;
+    };
+
+    end-of-file-fixer.enable = true;
+
+    gts = {
+      enable = true;
+      name = "Google TypeScript Style Guide Enforcement";
+      entry = "pnpm run lint:fix";
+      pass_filenames = false;
+    };
+
+    trim-trailing-whitespace.enable = true;
   };
 
   # https://devenv.sh/processes/
