@@ -2,7 +2,7 @@ import React, {useState, useEffect, ChangeEvent, FormEvent} from 'react';
 import styles from './ContactForm.module.css';
 import {countries} from './countries';
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || '';
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '';
 
 interface FormData {
   firstName: string;
