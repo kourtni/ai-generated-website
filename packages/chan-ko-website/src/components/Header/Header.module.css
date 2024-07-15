@@ -11,37 +11,37 @@
     right: 0;
     z-index: 1000;
   }
-  
+
   .logo img {
     height: 40px;
   }
-  
+
   .nav ul {
     display: flex;
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   .nav li {
     margin-left: 1.5rem;
   }
-  
+
   .nav a {
     text-decoration: none;
     color: #333;
     font-weight: 500;
     transition: color 0.3s ease;
   }
-  
+
   .nav a:hover {
     color: #007bff;
   }
-  
+
   .menuToggle {
     display: none;
   }
-  
+
   @media (max-width: 768px) {
     .nav {
       position: fixed;
@@ -53,20 +53,20 @@
       overflow: hidden;
       transition: height 0.3s ease;
     }
-  
+
     .nav.open {
       height: auto;
     }
-  
+
     .nav ul {
       flex-direction: column;
       padding: 1rem;
     }
-  
+
     .nav li {
       margin: 0.5rem 0;
     }
-  
+
     .menuToggle {
       display: block;
       background: none;
