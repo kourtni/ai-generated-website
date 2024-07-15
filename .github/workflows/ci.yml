@@ -20,11 +20,9 @@ jobs:
     - name: Install devenv.sh
       run: nix profile install nixpkgs#devenv
 
-    - name: Enter devenv shell
-      run: devenv shell
-
-    - name: Install Node dependencies
-      run: pnpm install
-
-    - name: Run any pre-commit hooks
-      run: devenv test
+    - name: Build the devenv shell and run any pre-commit hooks
+      shell: devenv shell bash -- -e {0}
+      run: |
+        devenv shell
+        pnpm install
+        devenv test
