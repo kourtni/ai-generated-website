@@ -1,7 +1,6 @@
 name: "Testing and Linting"
 
 on:
-  pull_request:
   push:
 
 jobs:
@@ -22,5 +21,7 @@ jobs:
       run: |
         echo "### Checking devenv version ###"
         devenv version
-        pnpm install
-        pre-commit
+        echo "### Installing Node packages ###"
+        pnpm install --frozen-lockfile
+        echo "### Running pre-commit hooks ###"
+        pre-commit run --all-files
