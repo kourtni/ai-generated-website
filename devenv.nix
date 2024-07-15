@@ -25,6 +25,7 @@
       name = "Chan-Ko Website Testing";
       entry = "pnpm test:chan-ko-website";
       pass_filenames = false;
+      verbose = true;
     };
 
     end-of-file-fixer.enable = true;
