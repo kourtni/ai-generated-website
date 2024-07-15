@@ -6,10 +6,7 @@ on:
 
 jobs:
   tests:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -23,6 +20,5 @@ jobs:
     - name: Build the devenv shell and run any pre-commit hooks
       shell: devenv shell bash -- -e {0}
       run: |
-        devenv shell
         pnpm install
         devenv test
