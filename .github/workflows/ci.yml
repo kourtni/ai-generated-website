@@ -20,5 +20,7 @@ jobs:
     - name: Build the devenv shell and run any pre-commit hooks
       shell: devenv shell bash -- -e {0}
       run: |
+        echo "### Checking devenv version ###"
+        devenv version
         pnpm install
-        devenv test
+        pre-commit
