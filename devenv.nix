@@ -2,7 +2,7 @@
 
 {
   # https://devenv.sh/basics/
-  env.GREET = "devenv";
+  env.GREET = "AI Generated Website Repo";
 
   # https://devenv.sh/packages/
   packages = [
@@ -12,27 +12,11 @@
   ];
 
   # https://devenv.sh/scripts/
-  scripts.hello.exec = "echo hello from $GREET";
+  scripts.hello.exec = ''echo -e "\033[0;32m### Welcome to the $GREET! ###\033[0m"'';
 
   enterShell = ''
     hello
-    git --version
   '';
-
-  # https://devenv.sh/tests/
-  enterTest = ''
-    echo "Running 0 tests"
-  '';
-
-  # TODO: These dotenv lines can be removed.
-  dotenv.enable = true;
-  dotenv.filename = [ ".env" ".env.local" ];
-
-  # https://devenv.sh/services/
-  # services.postgres.enable = true;
-
-  # https://devenv.sh/languages/
-  # languages.nix.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
   pre-commit.hooks = {
@@ -55,8 +39,15 @@
     trim-trailing-whitespace.enable = true;
   };
 
+  # Additional devenv options:
+
+  # https://devenv.sh/tests/
+
+  # https://devenv.sh/services/
+
+  # https://devenv.sh/languages/
+
   # https://devenv.sh/processes/
-  # processes.ping.exec = "ping example.com";
 
   # See full reference at https://devenv.sh/reference/options/
 }

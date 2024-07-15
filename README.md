@@ -62,6 +62,6 @@ been added to `.gitignore` so that it will not added to the repo.
 ## Install Dependencies
 
 - In the root directory, run `pnpm install` to install all dependencies.
-- To add a dependency to the chan-ko-website package, use:  
+- To add a dependency to the chan-ko-website package, use:
   `pnpm add <dependency-package-name> --filter @chan-ko-llc/chan-ko-website`
 - To run scripts, use: `pnpm run dev` or `pnpm run build` from the root directory.
