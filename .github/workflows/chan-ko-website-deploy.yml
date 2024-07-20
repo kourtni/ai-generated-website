@@ -1,0 +1,77 @@
+name: Deploy Chan-Ko Website to GCP
+
+on:
+  push:
+    tags:
+      - 'v*' # This will trigger the workflow for any tag starting with 'v'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      run: pnpm install --filter chan-ko-website
+
+    - name: Build website
+      run: pnpm --filter chan-ko-website build
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        project_id: ${{ secrets.CHANKO_WEBSITE_GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.CHANKO_WEBSITE_GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Deploy to GCP
+      run: |
+        if ! gcloud compute instances describe ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }}; then
+          gcloud compute instances create ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} \
+            --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} \
+            --machine-type=e2-micro \
+            --tags=http-server,https-server \
+            --metadata=startup-script='#! /bin/bash
+              apt-get update
+              apt-get install -y nginx
+              systemctl start nginx
+            '
+        fi
+        gcloud compute scp --recurse --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} packages/chan-ko-website/dist/* ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }}:/var/www/html/
+        gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='sudo systemctl restart nginx'
+
+
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
