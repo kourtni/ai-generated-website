@@ -85,7 +85,13 @@ jobs:
           sudo chown -R $(whoami):$(whoami) /var/www/html
 
           echo "Obtaining SSL certificate"
-          sudo certbot --nginx -d '"$DOMAIN"' --non-interactive --agree-tos --email '"$CERTBOT_EMAIL"'
+          if sudo certbot certificates | grep -q "$DOMAIN"; then
+            echo "Certificate for $DOMAIN already exists. Attempting renewal if necessary."
+            sudo certbot renew --nginx --non-interactive
+          else
+            echo "No certificate found for $DOMAIN. Creating a new one."
+            sudo certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos --email "$CERTBOT_EMAIL"
+          fi
         '
 
         echo "Copying files..."
@@ -95,29 +101,29 @@ jobs:
         gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='
           sudo chown -R www-data:www-data /var/www/html
 
-          echo '"Updating Nginx config to force HTTPS"'
-          sudo bash -c "cat > /etc/nginx/sites-available/default << EOF
+          echo "Updating Nginx config to force HTTPS"
+          sudo bash -c '"'"'cat > /etc/nginx/sites-available/default << EOL
           server {
-              listen 80;
-              server_name '"$DOMAIN"';
-              return 301 https://\$server_name\$request_uri;
+            listen 80;
+            server_name '"$DOMAIN"';
+            return 301 https://\$server_name\$request_uri;
           }
 
           server {
-              listen 443 ssl;
-              server_name '"$DOMAIN"';
+            listen 443 ssl;
+            server_name '"$DOMAIN"';
 
-              ssl_certificate /etc/letsencrypt/live/'"$DOMAIN"'/fullchain.pem;
-              ssl_certificate_key /etc/letsencrypt/live/'"$DOMAIN"'/privkey.pem;
+            ssl_certificate /etc/letsencrypt/live/'"$DOMAIN"'/fullchain.pem;
+            ssl_certificate_key /etc/letsencrypt/live/'"$DOMAIN"'/privkey.pem;
 
-              root /var/www/html;
-              index index.html;
+            root /var/www/html;
+            index index.html;
 
-              location / {
-                  try_files \$uri \$uri/ =404;
-              }
+            location / {
+                try_files \$uri \$uri/ =404;
+            }
           }
-          EOF"
+          EOL'"'"'
 
           sudo nginx -t && sudo systemctl restart nginx
         '
@@ -125,7 +131,6 @@ jobs:
         gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='sudo mkdir -p /var/www/html && sudo chown -R $(whoami):$(whoami) /var/www/html'
         gcloud compute scp --recurse --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} packages/chan-ko-website/dist/* ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }}:/var/www/html/
         gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='sudo systemctl restart nginx'
-
 
     - name: Create GitHub Release
       uses: actions/create-release@v1
