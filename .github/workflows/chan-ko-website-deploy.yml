@@ -62,9 +62,15 @@ jobs:
             --metadata=startup-script='#! /bin/bash
               apt-get update
               apt-get install -y nginx
+              mkdir -p /var/www/html
+              chown -R www-data:www-data /var/www/html
               systemctl start nginx
             '
         fi
+
+        sleep 60
+
+        gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='sudo mkdir -p /var/www/html && sudo chown -R $(whoami):$(whoami) /var/www/html'
         gcloud compute scp --recurse --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} packages/chan-ko-website/dist/* ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }}:/var/www/html/
         gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='sudo systemctl restart nginx'
 
