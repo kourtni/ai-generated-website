@@ -95,3 +95,27 @@ EOF
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo mkdir -p /var/www/html && sudo chown -R \$(whoami):\$(whoami) /var/www/html"
 gcloud compute scp --recurse --zone="$GCE_ZONE" packages/chan-ko-website/dist/* "$GCE_INSTANCE_NAME":/var/www/html/
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo systemctl restart nginx"
+
+echo "Debugging Nginx and SSL setup..."
+gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="
+  echo 'Nginx configuration:'
+  sudo cat /etc/nginx/sites-available/default
+
+  echo 'Nginx error log:'
+  sudo tail -n 50 /var/log/nginx/error.log
+
+  echo 'Certbot certificates:'
+  sudo certbot certificates
+
+  echo 'SSL certificate files:'
+  sudo ls -l /etc/letsencrypt/live/$DOMAIN
+
+  echo 'Nginx test output:'
+  sudo nginx -t
+
+  echo 'Firewall rules:'
+  sudo iptables -L
+
+  echo 'Listening ports:'
+  sudo netstat -tuln
+"
