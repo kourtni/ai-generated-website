@@ -62,13 +62,34 @@ jobs:
             --metadata=startup-script='#! /bin/bash
               apt-get update
               apt-get install -y nginx
-              mkdir -p /var/www/html
-              chown -R www-data:www-data /var/www/html
+              systemctl enable nginx
               systemctl start nginx
             '
         fi
 
-        sleep 60
+        echo "Waiting for instance to be ready..."
+        sleep 90
+
+        echo "Ensure nginx is installed and running"
+        gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='
+          if ! command -v nginx &> /dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y nginx
+          fi
+          sudo systemctl enable nginx
+          sudo systemctl start nginx
+          sudo mkdir -p /var/www/html
+          sudo chown -R $(whoami):$(whoami) /var/www/html
+        '
+
+        echo "Copying files..."
+        gcloud compute scp --recurse --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} packages/chan-ko-website/dist/* ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }}:/var/www/html/
+
+        echo "Setting permissions and restarting nginx..."
+        gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='
+          sudo chown -R www-data:www-data /var/www/html
+          sudo systemctl restart nginx
+        '
 
         gcloud compute ssh ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} --command='sudo mkdir -p /var/www/html && sudo chown -R $(whoami):$(whoami) /var/www/html'
         gcloud compute scp --recurse --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }} packages/chan-ko-website/dist/* ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }}:/var/www/html/
