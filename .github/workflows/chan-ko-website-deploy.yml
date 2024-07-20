@@ -55,6 +55,7 @@ jobs:
     - name: Deploy to GCP
       env:
         DOMAIN: chan-ko.com
+        CERTBOT_EMAIL: ${{ secrets.CHANKO_DEVOPS_EMAIL }}
       run: |
         if ! gcloud compute instances describe ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} --zone=${{ secrets.CHANKO_WEBSITE_GCE_ZONE }}; then
           gcloud compute instances create ${{ secrets.CHANKO_WEBSITE_GCE_INSTANCE_NAME }} \
@@ -84,7 +85,7 @@ jobs:
           sudo chown -R $(whoami):$(whoami) /var/www/html
 
           echo "Obtaining SSL certificate"
-          sudo certbot --nginx -d '"$DOMAIN"' --non-interactive --agree-tos --email devops@chan-ko.com
+          sudo certbot --nginx -d '"$DOMAIN"' --non-interactive --agree-tos --email '"$CERTBOT_EMAIL"'
         '
 
         echo "Copying files..."
