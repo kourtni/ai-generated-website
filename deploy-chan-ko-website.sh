@@ -49,32 +49,36 @@ echo "Copying files..."
 gcloud compute scp --recurse --zone="$GCE_ZONE" packages/chan-ko-website/dist/* "$GCE_INSTANCE_NAME":/var/www/html/
 
 echo "Setting permissions and updating Nginx config..."
-gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="
+gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command='
   sudo chown -R www-data:www-data /var/www/html
 
-  echo 'Updating Nginx config to force HTTPS and improve SSL settings'
-  cat << EOF | sudo tee /etc/nginx/sites-available/default
+  echo "Updating Nginx config to force HTTPS and improve SSL settings"
+  cat << "ENDOFNGINXCONF" | sudo tee /etc/nginx/sites-available/default
 server {
     listen 80;
-    server_name $DOMAIN;
+    server_name $hostname;
 
     # Add debugging information
-    add_header X-Debug-Message \"HTTP server block\" always;
+    add_header X-Debug-Message "HTTP server block" always;
+    add_header X-Host $host always;
+    add_header X-Server-Name $server_name always;
 
-    return 301 https://\$host\$request_uri;
+    return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name $DOMAIN;
+    server_name $hostname;
 
     # Add debugging information
-    add_header X-Debug-Message \"HTTPS server block\" always;
-    add_header X-URI \$uri always;
-    add_header X-Request-URI \$request_uri always;
+    add_header X-Debug-Message "HTTPS server block" always;
+    add_header X-Host $host always;
+    add_header X-Server-Name $server_name always;
+    add_header X-URI $uri always;
+    add_header X-Request-URI $request_uri always;
 
-    ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$hostname/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$hostname/privkey.pem;
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers off;
@@ -87,35 +91,43 @@ server {
     ssl_stapling on;
     ssl_stapling_verify on;
 
-    add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains\" always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     root /var/www/html;
     index index.html;
 
     location / {
-        try_files \$uri \$uri/ /index.html;
+        try_files $uri $uri/ /index.html;
     }
 
     # Disable SSL handshake debugging for better performance
     error_log /var/log/nginx/error.log warn;
 }
-EOF
+ENDOFNGINXCONF
 
-  echo 'Nginx configuration created. Checking syntax...'
+  echo "Nginx configuration created. Checking syntax..."
   sudo nginx -t
 
-  if [ \$? -eq 0 ]; then
-    echo 'Nginx syntax is correct. Restarting Nginx...'
+  if [ $? -eq 0 ]; then
+    echo "Nginx syntax is correct. Restarting Nginx..."
     sudo systemctl restart nginx
   else
-    echo 'Nginx syntax check failed. Printing configuration file:'
+    echo "Nginx syntax check failed. Printing configuration file:"
     cat /etc/nginx/sites-available/default
     exit 1
   fi
 
-  echo 'Nginx status:'
+  echo "Nginx status:"
   sudo systemctl status nginx
-"
+
+  echo "Printing Nginx configuration:"
+  sudo cat /etc/nginx/sites-available/default
+
+  echo "Testing Nginx variables:"
+  echo "SERVER_NAME: $hostname"
+  curl -H "Host: $hostname" -I http://localhost
+  curl -H "Host: $hostname" -I https://localhost
+'
 
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo mkdir -p /var/www/html && sudo chown -R \$(whoami):\$(whoami) /var/www/html"
 gcloud compute scp --recurse --zone="$GCE_ZONE" packages/chan-ko-website/dist/* "$GCE_INSTANCE_NAME":/var/www/html/
