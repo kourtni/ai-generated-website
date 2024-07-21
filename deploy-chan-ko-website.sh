@@ -119,14 +119,6 @@ ENDOFNGINXCONF
 
   echo "Nginx status:"
   sudo systemctl status nginx
-
-  echo "Printing Nginx configuration:"
-  sudo cat /etc/nginx/sites-available/default
-
-  echo "Testing Nginx variables:"
-  echo "SERVER_NAME: chan-ko.com"
-  curl -H "Host: chan-ko.com" -I http://localhost
-  curl -H "Host: chan-ko.com" -I https://localhost
 '
 
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo mkdir -p /var/www/html && sudo chown -R \$(whoami):\$(whoami) /var/www/html"
