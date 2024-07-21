@@ -61,7 +61,7 @@ server {
     # Add debugging information
     add_header X-Debug-Message \"HTTP server block\" always;
 
-    return 301 https://\$server_name\$request_uri;
+    return 301 https://\$host\$request_uri;
 }
 
 server {
