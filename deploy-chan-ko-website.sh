@@ -52,23 +52,26 @@ echo "Setting permissions and updating Nginx config..."
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command='
   sudo chown -R www-data:www-data /var/www/html
 
+  # Get the actual hostname
+  ACTUAL_HOSTNAME=$(hostname -f)
+
   echo "Updating Nginx config to force HTTPS and improve SSL settings"
-  cat << "ENDOFNGINXCONF" | sudo tee /etc/nginx/sites-available/default
+  cat << ENDOFNGINXCONF | sudo tee /etc/nginx/sites-available/default
 server {
     listen 80;
-    server_name $hostname;
+    server_name chan-ko.com;
 
     # Add debugging information
     add_header X-Debug-Message "HTTP server block" always;
     add_header X-Host $host always;
     add_header X-Server-Name $server_name always;
 
-    return 301 https://$server_name$request_uri;
+    return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name $hostname;
+    server_name chan-ko.com;
 
     # Add debugging information
     add_header X-Debug-Message "HTTPS server block" always;
@@ -77,8 +80,8 @@ server {
     add_header X-URI $uri always;
     add_header X-Request-URI $request_uri always;
 
-    ssl_certificate /etc/letsencrypt/live/$hostname/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$hostname/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/chan-ko.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/chan-ko.com/privkey.pem;
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers off;
@@ -124,9 +127,12 @@ ENDOFNGINXCONF
   sudo cat /etc/nginx/sites-available/default
 
   echo "Testing Nginx variables:"
-  echo "SERVER_NAME: $hostname"
-  curl -H "Host: $hostname" -I http://localhost
-  curl -H "Host: $hostname" -I https://localhost
+  echo "ACTUAL_HOSTNAME: $ACTUAL_HOSTNAME"
+  curl -H "Host: chan-ko.com" -I http://localhost
+  curl -k -H "Host: chan-ko.com" -I https://localhost
+
+  echo "Checking SSL certificate:"
+  sudo certbot certificates
 '
 
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo mkdir -p /var/www/html && sudo chown -R \$(whoami):\$(whoami) /var/www/html"
