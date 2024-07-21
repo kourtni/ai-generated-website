@@ -40,7 +40,7 @@ jobs:
       run: pnpm install --filter chan-ko-website
 
     - name: Build website
-      run: VITE_CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT=${{ secrets.CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT }} pnpm --filter chan-ko-website build
+      run: VITE_ENVIRONMENT=prod VITE_CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT=${{ secrets.CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT }} pnpm --filter chan-ko-website build
 
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v1
