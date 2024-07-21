@@ -56,7 +56,7 @@ gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command='
   cat << "ENDOFNGINXCONF" | sudo tee /etc/nginx/sites-available/default
 server {
     listen 80;
-    server_name $DOMAIN;
+    server_name chan-ko.com;
 
     # Add debugging information
     add_header X-Debug-Message "HTTP server block" always;
@@ -68,7 +68,7 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name $DOMAIN;
+    server_name chan-ko.com;
 
     # Add debugging information
     add_header X-Debug-Message "HTTPS server block" always;
@@ -77,8 +77,8 @@ server {
     add_header X-URI $uri always;
     add_header X-Request-URI $request_uri always;
 
-    ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/chan-ko.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/chan-ko.com/privkey.pem;
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers off;
