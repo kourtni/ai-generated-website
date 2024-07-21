@@ -2,7 +2,7 @@ import React, {useState, useEffect, ChangeEvent, FormEvent} from 'react';
 import styles from './ContactForm.module.css';
 import {countries} from './countries';
 
-const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '';
+const CONTACT_FORM_ENDPOINT = import.meta.env.VITE_CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT || '';
 
 interface FormData {
   firstName: string;
@@ -17,7 +17,7 @@ interface FormData {
 
 const ContactForm: React.FC = () => {
   useEffect(() => {
-    console.log('Current API Endpoint:', API_ENDPOINT);
+    console.log('Current API Endpoint:', CONTACT_FORM_ENDPOINT);
   }, []);
 
   const [formData, setFormData] = useState<FormData>({
@@ -57,14 +57,14 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
     setSubmitStatus('submitting');
 
-    if (!API_ENDPOINT) {
-      console.error('API endpoint is not defined');
+    if (!CONTACT_FORM_ENDPOINT) {
+      console.error('CONTACT_FORM_ENDPOINT is not defined');
       setSubmitStatus('error');
       return;
     }
 
     try {
-      const response = await fetch(API_ENDPOINT, {
+      const response = await fetch(CONTACT_FORM_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain;charset=utf-8',
