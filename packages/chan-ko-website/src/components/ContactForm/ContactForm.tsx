@@ -2,7 +2,7 @@ import React, {useState, useEffect, ChangeEvent, FormEvent} from 'react';
 import styles from './ContactForm.module.css';
 import {countries} from './countries';
 
-const CONTACT_FORM_ENDPOINT = import.meta.env.VITE_CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT || '';
+const GetContactFormEndpoint = () => import.meta.env.VITE_CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT;
 
 interface FormData {
   firstName: string;
@@ -16,12 +16,14 @@ interface FormData {
 }
 
 const ContactForm: React.FC = () => {
-  useEffect(() => {
-    if (import.meta.env.VITE_ENVIRONMENT !== 'prod') {
-      // We only want to log if we're not in production.
-      console.log('Current API Endpoint:', CONTACT_FORM_ENDPOINT);
-    }
-  }, []);
+  const endpoint = GetContactFormEndpoint();
+
+  if (import.meta.env.VITE_ENVIRONMENT !== 'prod') {
+    // We only want to log if we're not in production.
+    console.log('Current API Endpoint:', endpoint);
+  }
+
+  useEffect(() => {}, []);
 
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
@@ -60,14 +62,14 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
     setSubmitStatus('submitting');
 
-    if (!CONTACT_FORM_ENDPOINT) {
+    if (!endpoint) {
       console.error('CONTACT_FORM_ENDPOINT is not defined');
       setSubmitStatus('error');
       return;
     }
 
     try {
-      const response = await fetch(CONTACT_FORM_ENDPOINT, {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain;charset=utf-8',
