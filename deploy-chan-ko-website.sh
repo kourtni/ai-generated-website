@@ -52,7 +52,7 @@ echo "Setting permissions and updating Nginx config..."
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="
   sudo chown -R www-data:www-data /var/www/html
 
-  echo 'Updating Nginx config to force HTTPS'
+  echo 'Updating Nginx config to force HTTPS and improve SSL settings'
   cat << EOF | sudo tee /etc/nginx/sites-available/default
 server {
     listen 80;
@@ -61,11 +61,24 @@ server {
 }
 
 server {
-    listen 443 ssl;
+    listen 443 ssl http2;
     server_name $DOMAIN;
 
     ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_session_tickets off;
+
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    add_header Strict-Transport-Security \"max-age=31536000\; includeSubDomains\" always;
 
     root /var/www/html;
     index index.html;
@@ -95,6 +108,9 @@ EOF
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo mkdir -p /var/www/html && sudo chown -R \$(whoami):\$(whoami) /var/www/html"
 gcloud compute scp --recurse --zone="$GCE_ZONE" packages/chan-ko-website/dist/* "$GCE_INSTANCE_NAME":/var/www/html/
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo systemctl restart nginx"
+
+echo "Verifying Nginx configuration file content:"
+gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo cat /etc/nginx/sites-available/default"
 
 echo "Debugging Nginx and SSL setup..."
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="
