@@ -57,12 +57,19 @@ gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="
 server {
     listen 80;
     server_name $DOMAIN;
+
+    # Add debugging information
+    add_header X-Debug-Message \"HTTP server block\" always;
+
     return 301 https://\$server_name\$request_uri;
 }
 
 server {
     listen 443 ssl http2;
     server_name $DOMAIN;
+
+    # Add debugging information
+    add_header X-Debug-Message \"HTTPS server block\" always;
 
     ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
