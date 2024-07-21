@@ -78,7 +78,7 @@ server {
     ssl_stapling on;
     ssl_stapling_verify on;
 
-    add_header Strict-Transport-Security \"max-age=31536000\; includeSubDomains\" always;
+    add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains\" always;
 
     root /var/www/html;
     index index.html;
@@ -135,3 +135,15 @@ gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="
   echo 'Listening ports:'
   sudo netstat -tuln
 "
+
+echo 'Nginx configuration in use:'
+sudo nginx -T | grep -v '#'
+
+echo 'Testing HTTP to HTTPS redirect:'
+curl -I http://$DOMAIN
+
+echo 'SSL certificate information:'
+openssl s_client -connect $DOMAIN:443 -servername $DOMAIN < /dev/null 2>/dev/null | openssl x509 -noout -text
+
+echo 'Nginx warnings or errors:'
+sudo journalctl -u nginx
