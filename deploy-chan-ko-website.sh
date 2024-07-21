@@ -52,11 +52,8 @@ echo "Setting permissions and updating Nginx config..."
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command='
   sudo chown -R www-data:www-data /var/www/html
 
-  # Get the actual hostname
-  ACTUAL_HOSTNAME=$(hostname -f)
-
   echo "Updating Nginx config to force HTTPS and improve SSL settings"
-  cat << ENDOFNGINXCONF | sudo tee /etc/nginx/sites-available/default
+  cat << "ENDOFNGINXCONF" | sudo tee /etc/nginx/sites-available/default
 server {
     listen 80;
     server_name chan-ko.com;
@@ -66,7 +63,7 @@ server {
     add_header X-Host $host always;
     add_header X-Server-Name $server_name always;
 
-    return 301 https://$host$request_uri;
+    return 301 https://$server_name$request_uri;
 }
 
 server {
@@ -127,12 +124,9 @@ ENDOFNGINXCONF
   sudo cat /etc/nginx/sites-available/default
 
   echo "Testing Nginx variables:"
-  echo "ACTUAL_HOSTNAME: $ACTUAL_HOSTNAME"
+  echo "SERVER_NAME: chan-ko.com"
   curl -H "Host: chan-ko.com" -I http://localhost
-  curl -k -H "Host: chan-ko.com" -I https://localhost
-
-  echo "Checking SSL certificate:"
-  sudo certbot certificates
+  curl -H "Host: chan-ko.com" -I https://localhost
 '
 
 gcloud compute ssh "$GCE_INSTANCE_NAME" --zone="$GCE_ZONE" --command="sudo mkdir -p /var/www/html && sudo chown -R \$(whoami):\$(whoami) /var/www/html"
