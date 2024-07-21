@@ -70,6 +70,8 @@ server {
 
     # Add debugging information
     add_header X-Debug-Message \"HTTPS server block\" always;
+    add_header X-URI \$uri always;
+    add_header X-Request-URI \$request_uri always;
 
     ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
