@@ -17,7 +17,10 @@ interface FormData {
 
 const ContactForm: React.FC = () => {
   useEffect(() => {
-    console.log('Current API Endpoint:', CONTACT_FORM_ENDPOINT);
+    if (import.meta.env.VITE_ENVIRONMENT !== 'prod') {
+      // We only want to log if we're not in production.
+      console.log('Current API Endpoint:', CONTACT_FORM_ENDPOINT);
+    }
   }, []);
 
   const [formData, setFormData] = useState<FormData>({
