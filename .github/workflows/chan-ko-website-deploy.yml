@@ -9,7 +9,7 @@ on:
     inputs:
       environment:
         required: true
-        description: Environment to build and publish e.g. sit, dev
+        description: Environment to build and publish e.g. prod, dev
         default: prod
         type: choice
         options:
