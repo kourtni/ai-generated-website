@@ -1,9 +1,20 @@
 name: Deploy Chan-Ko Website to GCP
+run-name: Deploy Chan-Ko Website to GCP - ${{ inputs.environment }} by @${{ github.actor }}
 
 on:
   push:
-    tags:
-      - 'v*' # This will trigger the workflow for any tag starting with 'v'
+    tags:  # CalVer format 'vYY.MM.DD.XX', with 'YY' being 24, 'MM' being the month, 'DD' being the day, and 'XX' being a two-digit build number.
+      - 'v24.((02.(0[1-9]|[12][1-9]))|((0[13578]|1[02]).(0[1-9]|[12]\d|3[01]))|((0[469]|11).(0[1-9]|[12]\d|30))).[0-9]{2}'
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        description: Environment to build and publish e.g. sit, dev
+        default: prod
+        type: choice
+        options:
+          - dev
+          - prod
 
 jobs:
   deploy:
@@ -40,7 +51,11 @@ jobs:
       run: pnpm install --filter chan-ko-website
 
     - name: Build website
-      run: VITE_ENVIRONMENT=prod VITE_CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT=${{ secrets.CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT }} pnpm --filter chan-ko-website build
+      run: |
+       VITE_ENVIRONMENT=${{ inputs.environment }} \
+       VITE_CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT=${{ secrets.CHANKO_WEBSITE_CONTACT_FORM_ENDPOINT }} \
+       VITE_VERSION=${{ github.ref_name }} \
+       pnpm --filter chan-ko-website build
 
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v1

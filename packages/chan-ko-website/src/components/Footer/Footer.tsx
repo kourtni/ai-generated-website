@@ -3,6 +3,14 @@ import React from 'react';
 import styles from './Footer.module.css';
 import {Facebook, Twitter, Linkedin, Instagram} from 'lucide-react';
 
+const GetVersion = () => {
+  if (import.meta.env.VITE_ENVIRONMENT !== 'prod') {
+    return import.meta.env.VITE_VERSION + '-' + import.meta.env.VITE_ENVIRONMENT;
+  } else {
+    return import.meta.env.VITE_VERSION;
+  }
+}
+
 const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
@@ -42,7 +50,7 @@ const Footer: React.FC = () => {
           </a>
         </div>
         <p className={styles.copyright}>
-          &copy; {new Date().getFullYear()} Chan-Ko LLC. All rights reserved.
+        Build: {GetVersion()} | &copy; {new Date().getFullYear()} Chan-Ko LLC. All rights reserved.
         </p>
       </div>
     </footer>
