@@ -49,8 +49,9 @@ const Footer: React.FC = () => {
             <Instagram />
           </a>
         </div>
+        <div>Build: {GetVersion()}</div>
         <p className={styles.copyright}>
-        Build: {GetVersion()} | &copy; {new Date().getFullYear()} Chan-Ko LLC. All rights reserved.
+        &copy; {new Date().getFullYear()} Chan-Ko LLC. All rights reserved.
         </p>
       </div>
     </footer>
