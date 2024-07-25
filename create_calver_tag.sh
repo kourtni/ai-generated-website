@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Get today's date in the required format
-TODAY=$(date +"%y.%m.%d")
+# Get today's UTC date in the required format
+TODAY=$(date -u +"%y.%m.%d")
 
 # Get the latest tag for today's date
 LATEST_TAG=$(git tag -l "v$TODAY.*" | sort -V | tail -n 1)
