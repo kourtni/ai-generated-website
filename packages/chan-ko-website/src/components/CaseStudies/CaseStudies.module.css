@@ -1,0 +1,90 @@
+.caseStudies {
+    padding: 4rem 2rem;
+    background-color: #f8f9fa;
+}
+
+.caseStudies h2 {
+    text-align: center;
+    color: #1a2a6c;
+    margin-bottom: 2rem;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.card {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.card.expanded {
+    flex: 3;
+}
+
+.card:not(.expanded) {
+    flex: 1;
+}
+
+.studyTitle {
+    color: #b21f1f;
+    margin-bottom: 1rem;
+}
+
+.image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.description {
+    color: #333;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #1a2a6c;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+}
+
+.link:hover {
+    background-color: #b21f1f;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        flex-direction: column;
+    }
+
+    .card.expanded,
+    .card:not(.expanded) {
+        flex: 1;
+    }
+}
