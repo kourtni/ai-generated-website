@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Get today's UTC date in the required format
 TODAY=$(date -u +"%y.%m.%d")
