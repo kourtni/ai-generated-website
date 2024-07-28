@@ -1,5 +1,6 @@
 import React from 'react';
 import AboutUs from './components/AboutUs';
+import Services from './components/Services';
 import CaseStudies from './components/CaseStudies';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
@@ -18,6 +19,9 @@ const App: React.FC = () => {
         </section>
         <section id="about">
           <AboutUs />
+        </section>
+        <section id="services">
+          <Services />
         </section>
         <section id="case-studies">
           <CaseStudies />
