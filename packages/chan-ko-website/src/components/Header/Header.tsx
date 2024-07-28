@@ -18,7 +18,7 @@ const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <img src="/chan-ko-water-logo.png" alt="Chan-Ko LLC Logo" />
+        <img src="/Chan-Ko_Logo_transparent.png" alt="Chan-Ko LLC Logo" />
       </div>
       <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ''}`}>
         <ul>
