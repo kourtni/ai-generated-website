@@ -12,7 +12,11 @@
   ];
 
   # https://devenv.sh/scripts/
-  scripts.hello.exec = ''echo -e "\033[0;32m### Welcome to the $GREET! ###\033[0m"'';
+  scripts = {
+    hello.exec = ''echo -e "\033[0;32m### Welcome to the $GREET! ###\033[0m"'';
+    no-main-branch-commits.exec = ''bash scripts/prevent-main-commits.sh'';
+    no-main-branch-pushes.exec = ''bash scripts/prevent-main-push.sh'';
+  };
 
   enterShell = ''
     hello
@@ -20,6 +24,17 @@
 
   # https://devenv.sh/pre-commit-hooks/
   pre-commit.hooks = {
+    no-main-branch-commits = {
+      enable = true;
+      entry = "no-main-branch-commits";
+    };
+
+    no-main-branch-pushes = {
+      enable = true;
+      entry = "no-main-branch-pushes";
+      stages = [ "pre-push" ];
+    };
+
     chan-ko-testing = {
       enable = true;
       name = "Chan-Ko Website Testing";
