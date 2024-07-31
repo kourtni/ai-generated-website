@@ -12,7 +12,9 @@ const Hero: React.FC = () => {
           <br></br>
           Empowering your Technological, Entertainment, and Edutainment Goals
         </p>
+        <a href="#services">
         <button className={styles.cta}>Discover Our Services</button>
+        </a>
       </div>
     </section>
   );
