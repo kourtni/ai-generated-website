@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# This script prevents you from committing directly to the main branch.
+# Please follow the steps described in the comments below to properly enable this script.
+
 set -e
 
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
